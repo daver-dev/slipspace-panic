@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dklywbxl40jqi"]
+
+[ext_resource type="Script" path="res://Enemies/thing_to_chase.gd" id="1_n5ag0"]
+[ext_resource type="Texture2D" uid="uid://cgemj30k5crt0" path="res://icon.svg" id="1_o6506"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fgvfb"]
+size = Vector2(40, 41)
+
+[node name="ThingToChase" type="Area2D" groups=["chase"]]
+script = ExtResource("1_n5ag0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_o6506")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_fgvfb")
+
+[node name="ChangeSpeedAndDirectionTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="ChangeSpeedAndDirectionTimer" to="." method="_on_change_speed_and_direction_timer_timeout"]

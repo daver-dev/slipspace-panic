@@ -1,0 +1,96 @@
+[gd_scene load_steps=11 format=3 uid="uid://ib3krf0pkm88"]
+
+[ext_resource type="Script" path="res://explosion.gd" id="1_5gsuj"]
+[ext_resource type="AudioStream" uid="uid://4l6f0dg74243" path="res://Sound/enemy2_explosion.wav" id="2_5f2gg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u62cg"]
+radius = 100.0
+
+[sub_resource type="Gradient" id="Gradient_jjgax"]
+offsets = PackedFloat32Array(0, 0.0716724, 0.197952, 0.238908, 0.409556, 0.447099, 0.593857, 0.65529, 0.791809)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0.466667, 0, 1, 1, 0.436185, 0, 1, 1, 0.12882, 0, 1, 0.575627, 0.0677328, 0, 1, 0.202779, 0.00897295, 1.20327e-08, 1, 0.572549, 0.0745098, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_065y1"]
+gradient = SubResource("Gradient_jjgax")
+
+[sub_resource type="Curve" id="Curve_rcehf"]
+max_value = 10.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.123457, 10), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6n2mi"]
+curve = SubResource("Curve_rcehf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6dp8q"]
+emission_shape = 1
+emission_sphere_radius = 50.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_6n2mi")
+color_ramp = SubResource("GradientTexture1D_065y1")
+hue_variation_max = 0.09
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_atywl"]
+emission_shape = 1
+emission_sphere_radius = 50.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 359.42
+initial_velocity_max = 472.9
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.2
+scale_curve = SubResource("CurveTexture_6n2mi")
+color_ramp = SubResource("GradientTexture1D_065y1")
+hue_variation_max = 0.09
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_mopbh"]
+streams_count = 1
+random_volume_offset_db = 0.0
+stream_0/stream = ExtResource("2_5f2gg")
+stream_0/weight = 1.0
+
+[node name="Explosion" type="Node2D" groups=["pausehide"]]
+script = ExtResource("1_5gsuj")
+
+[node name="CollisionArea2D" type="Area2D" parent="."]
+collision_mask = 65535
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea2D"]
+shape = SubResource("CircleShape2D_u62cg")
+debug_color = Color(0.862745, 0, 0.862745, 0.752941)
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_6dp8q")
+one_shot = true
+explosiveness = 0.86
+randomness = 0.15
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+
+[node name="ExplosionParticles2" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_atywl")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+randomness = 0.15
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+
+[node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_mopbh")
+volume_db = -10.0
+pitch_scale = 0.7
+bus = &"SFX"
+
+[connection signal="area_entered" from="CollisionArea2D" to="." method="_on_collision_area_2d_area_entered"]
+[connection signal="body_entered" from="CollisionArea2D" to="." method="_on_collision_area_2d_body_entered"]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmvshen66jwed"]
+
+[ext_resource type="Script" path="res://splash/splash.gd" id="1_b04ml"]
+[ext_resource type="PackedScene" uid="uid://bhim3lqxs2lyv" path="res://game.tscn" id="2_kkllm"]
+[ext_resource type="Texture2D" uid="uid://dpr5nysvnh572" path="res://splash/sudden_journey_logo.png" id="2_n34ou"]
+
+[node name="Splash" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b04ml")
+next_scene = ExtResource("2_kkllm")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+texture = ExtResource("2_n34ou")
+expand_mode = 1
+stretch_mode = 5

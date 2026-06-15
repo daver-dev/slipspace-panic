@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhim3lqxs2lyv"]
+
+[ext_resource type="Script" path="res://game.gd" id="1_3kcor"]
+[ext_resource type="PackedScene" uid="uid://de2qut32ocvr7" path="res://Menu/menu.tscn" id="1_u8vu4"]
+
+[node name="Game" type="Node2D" groups=["game"]]
+position = Vector2(2, 0)
+script = ExtResource("1_3kcor")
+
+[node name="Menu" parent="." instance=ExtResource("1_u8vu4")]
+
+[node name="ColorRect" type="ColorRect" parent="Menu"]
+offset_left = -2819.0
+offset_top = -3103.73
+offset_right = 2838.0
+offset_bottom = -567.734
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Menu"]
+offset_left = -2831.0
+offset_top = 567.632
+offset_right = 2826.0
+offset_bottom = 3100.63
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Menu"]
+offset_left = -6699.84
+offset_top = -1085.0
+offset_right = -1009.84
+offset_bottom = 1448.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Menu"]
+offset_left = 1009.68
+offset_top = -1267.0
+offset_right = 6699.68
+offset_bottom = 1266.0
+color = Color(0, 0, 0, 1)

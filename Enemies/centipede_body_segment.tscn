@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bgkt7q0swnidk"]
+
+[ext_resource type="Script" path="res://Enemies/centipede_body_segment.gd" id="1_fmnv0"]
+[ext_resource type="Texture2D" uid="uid://c2c33634gg0ly" path="res://Art/Enemies/centi_body.png" id="1_ik6wa"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q06by"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ik6wa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kt60i"]
+radius = 14.0
+height = 40.0
+
+[node name="CentipedeBodySegment" type="RigidBody2D"]
+collision_layer = 16
+collision_mask = 0
+mass = 0.01
+linear_damp = 35.0
+angular_damp = 50.0
+script = ExtResource("1_fmnv0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_q06by")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_kt60i")
+disabled = true

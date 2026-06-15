@@ -1,0 +1,141 @@
+[gd_scene load_steps=15 format=3 uid="uid://dla6tnvisss8q"]
+
+[ext_resource type="Script" path="res://Powerups/missile_powerup.gd" id="1_weebf"]
+[ext_resource type="PackedScene" uid="uid://chmkxc2ayuvgl" path="res://Powerups/powerup_glow.tscn" id="2_qtyo4"]
+[ext_resource type="Texture2D" uid="uid://ddebbblhd2ink" path="res://Art/Player/new_missile_spritesheet.png" id="3_uugrd"]
+[ext_resource type="Script" path="res://Powerups/Animation.gd" id="8_kneg7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_agiyc"]
+size = Vector2(43.4286, 43.4286)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4et2e"]
+atlas = ExtResource("3_uugrd")
+region = Rect2(0, 0, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2fc8"]
+atlas = ExtResource("3_uugrd")
+region = Rect2(22, 0, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afnlq"]
+atlas = ExtResource("3_uugrd")
+region = Rect2(44, 0, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqhya"]
+atlas = ExtResource("3_uugrd")
+region = Rect2(0, 17, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mopt"]
+atlas = ExtResource("3_uugrd")
+region = Rect2(22, 17, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfajh"]
+atlas = ExtResource("3_uugrd")
+region = Rect2(44, 17, 22, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_18fv7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4et2e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2fc8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afnlq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqhya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4mopt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfajh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="Animation" id="Animation_31ysr"]
+resource_name = "rotate"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p2w16"]
+_data = {
+"rotate": SubResource("Animation_31ysr")
+}
+
+[node name="MissilePowerup" type="Area2D" groups=["missile_powerup", "powerup"]]
+scale = Vector2(0.875, 0.875)
+collision_layer = 4194305
+collision_mask = 2147483649
+script = ExtResource("1_weebf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4.73431e-06, -1.83923e-06)
+shape = SubResource("RectangleShape2D_agiyc")
+
+[node name="powerup_glow" parent="." instance=ExtResource("2_qtyo4")]
+modulate = Color(1, 0.286275, 0.239216, 1)
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.901961)
+scale = Vector2(2.2, 2.2)
+sprite_frames = SubResource("SpriteFrames_18fv7")
+autoplay = "default"
+frame_progress = 0.85053
+script = ExtResource("8_kneg7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animation"]
+libraries = {
+"": SubResource("AnimationLibrary_p2w16")
+}
+
+[node name="GrowTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShrinkTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DoNothingTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DisappearWarningTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="DisappearFinalWarningTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="HideSpriteToggleTimer" type="Timer" parent="."]
+wait_time = 0.07
+
+[node name="DisappearTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="GrowTimer" to="." method="_on_grow_timer_timeout"]
+[connection signal="timeout" from="ShrinkTimer" to="." method="_on_shrink_timer_timeout"]
+[connection signal="timeout" from="DoNothingTimer" to="." method="_on_do_nothing_timer_timeout"]
+[connection signal="timeout" from="DisappearWarningTimer" to="." method="_on_disappear_warning_timer_timeout"]
+[connection signal="timeout" from="DisappearFinalWarningTimer" to="." method="_on_disappear_final_warning_timer_timeout"]
+[connection signal="timeout" from="HideSpriteToggleTimer" to="." method="_on_hide_sprite_toggle_timer_timeout"]
+[connection signal="timeout" from="DisappearTimer" to="." method="_on_disappear_timer_timeout"]

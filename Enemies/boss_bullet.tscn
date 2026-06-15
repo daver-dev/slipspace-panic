@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6k6y76n5v1wn"]
+
+[ext_resource type="Script" path="res://Enemies/boss_bullet.gd" id="1_qdlb7"]
+[ext_resource type="Texture2D" uid="uid://bhh6hobufoybp" path="res://Art/Enemies/Boss/side-ship-projectile.png" id="2_v5m8t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uscrw"]
+
+[node name="BossBullet" type="Area2D"]
+collision_mask = 2147483649
+script = ExtResource("1_qdlb7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_uscrw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_v5m8t")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

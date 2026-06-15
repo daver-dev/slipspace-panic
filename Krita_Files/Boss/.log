@@ -1,0 +1,2 @@
+C:/Program Files/Krita (x64)/bin/ffprobe.exe  -hide_banner -v warning -of json=compact=1 -show_format -show_streams -i C:/GameDev/Projects/SpaceShooter/Krita_Files/ref/qbpslg6fb0md1.mp4 
+=====================================================

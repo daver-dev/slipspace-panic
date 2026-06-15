@@ -1,0 +1,100 @@
+[gd_scene load_steps=8 format=3 uid="uid://dcicne70ycwxr"]
+
+[ext_resource type="Script" path="res://Background/background.gd" id="1_e08ef"]
+[ext_resource type="Texture2D" uid="uid://6oce1msp345h" path="res://Art/Environment/star.png" id="1_msslu"]
+
+[sub_resource type="Gradient" id="Gradient_aj4oa"]
+offsets = PackedFloat32Array(0.0590909, 0.518182, 0.940909)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_a8ayo"]
+gradient = SubResource("Gradient_aj4oa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gtgqb"]
+emission_shape = 3
+emission_box_extents = Vector3(1500, 3600, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.5
+color = Color(1, 1, 1, 0.721569)
+color_ramp = SubResource("GradientTexture1D_a8ayo")
+hue_variation_min = -0.15
+hue_variation_max = 0.11
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2kv8o"]
+emission_shape = 3
+emission_box_extents = Vector3(1500, 3600, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.5
+color = Color(1, 1, 1, 0.721569)
+color_ramp = SubResource("GradientTexture1D_a8ayo")
+hue_variation_min = -0.15
+hue_variation_max = 0.11
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wyvqc"]
+emission_shape = 3
+emission_box_extents = Vector3(1500, 3600, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.5
+color = Color(1, 1, 1, 0.721569)
+color_ramp = SubResource("GradientTexture1D_a8ayo")
+hue_variation_min = -0.15
+hue_variation_max = 0.11
+
+[node name="Background" type="Node2D"]
+script = ExtResource("1_e08ef")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayerBack" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color(1, 1, 1, 0)
+motion_scale = Vector2(0, 0)
+motion_offset = Vector2(750, 425)
+
+[node name="Stars" type="GPUParticles2D" parent="ParallaxBackground/ParallaxLayerBack"]
+amount = 180
+process_material = SubResource("ParticleProcessMaterial_gtgqb")
+texture = ExtResource("1_msslu")
+lifetime = 3.0
+preprocess = 3.0
+local_coords = true
+
+[node name="ParallaxLayerMid" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color(1, 1, 1, 0)
+motion_scale = Vector2(0.15, 0.15)
+motion_offset = Vector2(750, 425)
+
+[node name="Stars" type="GPUParticles2D" parent="ParallaxBackground/ParallaxLayerMid"]
+amount = 180
+process_material = SubResource("ParticleProcessMaterial_2kv8o")
+texture = ExtResource("1_msslu")
+lifetime = 3.0
+preprocess = 3.0
+local_coords = true
+
+[node name="ParallaxLayerFront" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color(1, 1, 1, 0)
+motion_scale = Vector2(0.3, 0.3)
+motion_offset = Vector2(750, 425)
+
+[node name="Stars" type="GPUParticles2D" parent="ParallaxBackground/ParallaxLayerFront"]
+amount = 180
+process_material = SubResource("ParticleProcessMaterial_wyvqc")
+texture = ExtResource("1_msslu")
+lifetime = 3.0
+preprocess = 3.0
+local_coords = true

@@ -1,0 +1,121 @@
+[gd_scene load_steps=8 format=3 uid="uid://cqaai7grk3w5d"]
+
+[ext_resource type="Script" path="res://Enemies/CentipedeHead.gd" id="1_rt672"]
+[ext_resource type="Texture2D" uid="uid://cf1gqdnvlj37j" path="res://Art/Enemies/centi_head.png" id="2_16mqv"]
+[ext_resource type="PackedScene" uid="uid://bgkt7q0swnidk" path="res://Enemies/centipede_body_segment.tscn" id="3_dmvcw"]
+[ext_resource type="PackedScene" uid="uid://47lck5hqicm6" path="res://Enemies/centipede_tail.tscn" id="4_8ieay"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xqccq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_16mqv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2fs0a"]
+radius = 16.0
+height = 46.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d5i8p"]
+radius = 20.0
+
+[node name="CentipedeEnemyPhysics" type="Node2D"]
+
+[node name="CentipedeHead" type="CharacterBody2D" parent="."]
+position = Vector2(-3, 0)
+collision_layer = 16
+motion_mode = 1
+script = ExtResource("1_rt672")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CentipedeHead"]
+position = Vector2(17, 0)
+sprite_frames = SubResource("SpriteFrames_xqccq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CentipedeHead"]
+position = Vector2(22, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_2fs0a")
+
+[node name="Area2D" type="Area2D" parent="CentipedeHead"]
+position = Vector2(103, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CentipedeHead/Area2D"]
+shape = SubResource("CircleShape2D_d5i8p")
+
+[node name="CentipedeBodySegment" parent="." instance=ExtResource("3_dmvcw")]
+position = Vector2(-19, 0)
+
+[node name="CentipedeBodySegment2" parent="." instance=ExtResource("3_dmvcw")]
+position = Vector2(-59, 0)
+
+[node name="CentipedeBodySegment3" parent="." instance=ExtResource("3_dmvcw")]
+position = Vector2(-99, 0)
+
+[node name="CentipedeBodySegment4" parent="." instance=ExtResource("3_dmvcw")]
+position = Vector2(-139, 0)
+
+[node name="CentipedeBodySegment5" parent="." instance=ExtResource("3_dmvcw")]
+position = Vector2(-179, 0)
+
+[node name="CentipedeBodySegment6" parent="." instance=ExtResource("3_dmvcw")]
+position = Vector2(-219, 0)
+
+[node name="CentipedeBodySegment7" parent="." instance=ExtResource("3_dmvcw")]
+position = Vector2(-259, 0)
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+node_a = NodePath("../CentipedeHead")
+node_b = NodePath("../CentipedeBodySegment")
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="."]
+position = Vector2(-40, 0)
+node_a = NodePath("../CentipedeBodySegment")
+node_b = NodePath("../CentipedeBodySegment2")
+
+[node name="PinJoint2D3" type="PinJoint2D" parent="."]
+position = Vector2(-80, 0)
+node_a = NodePath("../CentipedeBodySegment2")
+node_b = NodePath("../CentipedeBodySegment3")
+
+[node name="PinJoint2D4" type="PinJoint2D" parent="."]
+position = Vector2(-120, 0)
+node_a = NodePath("../CentipedeBodySegment3")
+node_b = NodePath("../CentipedeBodySegment4")
+
+[node name="PinJoint2D5" type="PinJoint2D" parent="."]
+position = Vector2(-160, 0)
+node_a = NodePath("../CentipedeBodySegment4")
+node_b = NodePath("../CentipedeBodySegment5")
+
+[node name="PinJoint2D6" type="PinJoint2D" parent="."]
+position = Vector2(-200, 0)
+node_a = NodePath("../CentipedeBodySegment5")
+node_b = NodePath("../CentipedeBodySegment6")
+
+[node name="PinJoint2D7" type="PinJoint2D" parent="."]
+position = Vector2(-240, 0)
+node_a = NodePath("../CentipedeBodySegment6")
+node_b = NodePath("../CentipedeBodySegment7")
+
+[node name="PinJoint2D8" type="PinJoint2D" parent="."]
+position = Vector2(-280, 0)
+node_a = NodePath("../CentipedeBodySegment7")
+node_b = NodePath("../CentipedeTail")
+
+[node name="CentipedeTail" parent="." instance=ExtResource("4_8ieay")]
+position = Vector2(-281, 0)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="TurnToggleTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="body_entered" from="CentipedeHead/Area2D" to="CentipedeHead" method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="CentipedeHead" method="_on_timer_timeout"]
+[connection signal="timeout" from="TurnToggleTimer" to="CentipedeHead" method="_on_turn_toggle_timer_timeout"]

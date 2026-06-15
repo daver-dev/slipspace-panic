@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://c15rwmmkeyogp"]
+
+[ext_resource type="Script" path="res://Powerups/speed_powerup.gd" id="1_6cg10"]
+[ext_resource type="Texture2D" uid="uid://brcx03amr56cl" path="res://Art/Powerups/updated_powerups/speed_powerup.png" id="2_lslk4"]
+[ext_resource type="Script" path="res://Powerups/Animation.gd" id="9_1baj1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7hvj8"]
+size = Vector2(43.4286, 43.4286)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yee3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lslk4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
+
+[node name="SpeedPowerup" type="Area2D" groups=["powerup"]]
+rotation = -6.28319
+scale = Vector2(0.875, 0.875)
+collision_layer = 4194305
+collision_mask = 2147483649
+script = ExtResource("1_6cg10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3.78065e-06, -3.84648e-06)
+shape = SubResource("RectangleShape2D_7hvj8")
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.901961)
+sprite_frames = SubResource("SpriteFrames_yee3p")
+frame_progress = 0.571901
+script = ExtResource("9_1baj1")
+
+[node name="GrowTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShrinkTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DoNothingTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DisappearWarningTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="DisappearFinalWarningTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="HideSpriteToggleTimer" type="Timer" parent="."]
+wait_time = 0.07
+
+[node name="DisappearTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="GrowTimer" to="." method="_on_grow_timer_timeout"]
+[connection signal="timeout" from="ShrinkTimer" to="." method="_on_shrink_timer_timeout"]
+[connection signal="timeout" from="DoNothingTimer" to="." method="_on_do_nothing_timer_timeout"]
+[connection signal="timeout" from="DisappearWarningTimer" to="." method="_on_disappear_warning_timer_timeout"]
+[connection signal="timeout" from="DisappearFinalWarningTimer" to="." method="_on_disappear_final_warning_timer_timeout"]
+[connection signal="timeout" from="HideSpriteToggleTimer" to="." method="_on_hide_sprite_toggle_timer_timeout"]
+[connection signal="timeout" from="DisappearTimer" to="." method="_on_disappear_timer_timeout"]

@@ -1,0 +1,22 @@
+C:/Program Files/ffmpeg.exe -hide_banner -y -y -r 8 -start_number 0 -start_number_range 1 -i C:/GameDev/Projects/SpaceShooter/Krita_Files/bomber/frame%04d.png -i C:/GameDev/Projects/SpaceShooter/Krita_Files/bomber/KritaTempPalettegen_%06d.png -lavfi [0:v][1:v]paletteuse=dither=sierra2_4a:diff_mode=none -f gif -loop 0 -gifflags +transdiff C:/GameDev/Projects/SpaceShooter/Krita_Files/bomber/bomber_alive.gif
+=====================================================
+Input #0, image2, from 'C:/GameDev/Projects/SpaceShooter/Krita_Files/bomber/frame%04d.png':
+  Duration: 00:00:01.20, start: 0.000000, bitrate: N/A
+    Stream #0:0: Video: png, rgba(pc), 120x90 [SAR 3779:3779 DAR 4:3], 25 fps, 25 tbr, 25 tbn, 25 tbc
+Input #1, image2, from 'C:/GameDev/Projects/SpaceShooter/Krita_Files/bomber/KritaTempPalettegen_%06d.png':
+  Duration: 00:00:00.04, start: 0.000000, bitrate: N/A
+    Stream #1:0: Video: png, rgba(pc), 16x16 [SAR 1:1 DAR 1:1], 25 tbr, 25 tbn, 25 tbc
+Stream mapping:
+  Stream #0:0 (png) -> paletteuse:default
+  Stream #1:0 (png) -> paletteuse:palette
+  paletteuse -> Stream #0:0 (gif)
+Press [q] to stop, [?] for help
+[image2 @ 000001db48abf000] Thread message queue blocking; consider raising the thread_queue_size option (current value: 8)
+Output #0, gif, to 'C:/GameDev/Projects/SpaceShooter/Krita_Files/bomber/bomber_alive.gif':
+  Metadata:
+    encoder         : Lavf58.51.101
+    Stream #0:0: Video: gif, pal8, 120x90 [SAR 1:1 DAR 4:3], q=2-31, 200 kb/s, 8 fps, 100 tbn, 8 tbc (default)
+    Metadata:
+      encoder         : Lavc58.101.101 gif
+frame=   30 fps=0.0 q=-0.0 Lsize=       7kB time=00:00:03.64 bitrate=  15.6kbits/s speed= 384x    
+video:7kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.282566%

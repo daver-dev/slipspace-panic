@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7ekhhsduitxm"]
+
+[ext_resource type="Texture2D" uid="uid://cf1gqdnvlj37j" path="res://Art/Enemies/centi_head.png" id="1_gi8rg"]
+[ext_resource type="PackedScene" uid="uid://bgkt7q0swnidk" path="res://Enemies/centipede_body_segment.tscn" id="1_k86fn"]
+[ext_resource type="Script" path="res://Enemies/centipede_enemy.gd" id="1_kvqw4"]
+[ext_resource type="PackedScene" uid="uid://47lck5hqicm6" path="res://Enemies/centipede_tail.tscn" id="3_ouqua"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bpxk2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gi8rg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vas8h"]
+radius = 16.0
+height = 46.0
+
+[node name="CentipedeEnemy" type="Node2D"]
+script = ExtResource("1_kvqw4")
+
+[node name="CentipedeHead" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CentipedeHead"]
+position = Vector2(17, 0)
+sprite_frames = SubResource("SpriteFrames_bpxk2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CentipedeHead"]
+position = Vector2(22, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vas8h")
+
+[node name="BodySegmentHolder" type="Node2D" parent="."]
+
+[node name="CentipedeBodySegment7" parent="BodySegmentHolder" instance=ExtResource("1_k86fn")]
+position = Vector2(-263, 0)
+
+[node name="CentipedeBodySegment6" parent="BodySegmentHolder" instance=ExtResource("1_k86fn")]
+position = Vector2(-223, 0)
+
+[node name="CentipedeBodySegment5" parent="BodySegmentHolder" instance=ExtResource("1_k86fn")]
+position = Vector2(-183, 0)
+
+[node name="CentipedeBodySegment4" parent="BodySegmentHolder" instance=ExtResource("1_k86fn")]
+position = Vector2(-143, 0)
+
+[node name="CentipedeBodySegment3" parent="BodySegmentHolder" instance=ExtResource("1_k86fn")]
+position = Vector2(-103, 0)
+
+[node name="CentipedeBodySegment2" parent="BodySegmentHolder" instance=ExtResource("1_k86fn")]
+position = Vector2(-63, 0)
+
+[node name="CentipedeBodySegment1" parent="BodySegmentHolder" instance=ExtResource("1_k86fn")]
+position = Vector2(-23, 0)
+
+[node name="CentipedeTail" parent="." instance=ExtResource("3_ouqua")]
+position = Vector2(-285, 0)
+
+[node name="TempNode2D" type="Node2D" parent="."]

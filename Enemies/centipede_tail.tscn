@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://47lck5hqicm6"]
+
+[ext_resource type="Texture2D" uid="uid://dqajaob0ielnv" path="res://Art/Enemies/centi_tail.png" id="1_fukhl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wnd62"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_fukhl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0m2hf"]
+radius = 14.0
+height = 40.0
+
+[node name="CentipedeTail" type="RigidBody2D"]
+collision_layer = 16
+collision_mask = 0
+mass = 0.01
+linear_damp = 35.0
+angular_damp = 50.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(-15, 0)
+sprite_frames = SubResource("SpriteFrames_wnd62")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-18, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0m2hf")
+disabled = true

@@ -1,0 +1,889 @@
+[gd_scene load_steps=57 format=3 uid="uid://bb0g6karg6ep3"]
+
+[ext_resource type="PackedScene" uid="uid://cbmkupf6hjm5x" path="res://player_ship.tscn" id="1_4ut23"]
+[ext_resource type="Script" path="res://Levels/level_1.gd" id="1_wv5a8"]
+[ext_resource type="Script" path="res://Levels/LeftWall.gd" id="2_8qpop"]
+[ext_resource type="PackedScene" uid="uid://ck511whcvt2rx" path="res://Powerups/gun_powerup.tscn" id="4_ow6qs"]
+[ext_resource type="Script" path="res://Levels/RightWall.gd" id="4_twvck"]
+[ext_resource type="Script" path="res://Levels/BottomWall.gd" id="5_h1hsj"]
+[ext_resource type="Script" path="res://Levels/enemies_node_2d.gd" id="5_jkuxd"]
+[ext_resource type="Script" path="res://Levels/TopWall.gd" id="5_uqy7i"]
+[ext_resource type="PackedScene" uid="uid://dar5fdjaqko2p" path="res://HUD/warning_arrow.tscn" id="5_xr6ug"]
+[ext_resource type="AudioStream" uid="uid://d4g00wpsgej12" path="res://Sound/Slipspace-Panic-Theme.mp3" id="7_sel5w"]
+[ext_resource type="AudioStream" uid="uid://be6m7ofy6chow" path="res://Sound/music/boss_song_intro.mp3" id="8_n36bc"]
+[ext_resource type="PackedScene" uid="uid://dla6tnvisss8q" path="res://Powerups/missile_powerup.tscn" id="8_v7gk0"]
+[ext_resource type="AudioStream" uid="uid://bqaf2dwrpmbgf" path="res://Sound/music/BossLoop.mp3" id="9_2pw3o"]
+[ext_resource type="PackedScene" uid="uid://dcicne70ycwxr" path="res://Background/background.tscn" id="9_5a27t"]
+[ext_resource type="PackedScene" uid="uid://b0n5f2ml6i2oi" path="res://Enemies/boss.tscn" id="9_axm3j"]
+[ext_resource type="PackedScene" uid="uid://df8w1q2yk68ah" path="res://Powerups/shield_powerup.tscn" id="10_bfe65"]
+[ext_resource type="AudioStream" uid="uid://g4lwg8sfedj4" path="res://Sound/music/ending.mp3" id="10_rmq1b"]
+[ext_resource type="Texture2D" uid="uid://clv1gswnueioe" path="res://Art/Environment/border.png" id="12_iyp8h"]
+[ext_resource type="Script" path="res://Levels/BossStuffHub.gd" id="12_wbqp8"]
+[ext_resource type="Script" path="res://Levels/Border.gd" id="16_kjtac"]
+[ext_resource type="PackedScene" uid="uid://cwfv6c0a3nsvr" path="res://Enemies/enemy_shared.tscn" id="18_3snqw"]
+[ext_resource type="Texture2D" uid="uid://bki28p2hafbb5" path="res://Art/Environment/border-explosion/border_explosion_base.png" id="18_jcrap"]
+[ext_resource type="Texture2D" uid="uid://b8tddx7r1sqe6" path="res://Art/Environment/border-explosion/border_explosion_chunk1.png" id="20_dltie"]
+[ext_resource type="Texture2D" uid="uid://dtdqv0bs5l5qq" path="res://Art/Environment/border-explosion/border_explosion_chunk2.png" id="21_nl8jd"]
+[ext_resource type="Texture2D" uid="uid://di0qliqlg3k24" path="res://Art/Environment/border-explosion/border_explosion_chunk3.png" id="22_ole43"]
+[ext_resource type="Texture2D" uid="uid://cwembj5nefa7p" path="res://Art/Environment/border-explosion/border_explosion_chunk4.png" id="23_5ywvi"]
+[ext_resource type="Script" path="res://Camera2D.gd" id="29_33ua0"]
+[ext_resource type="Texture2D" uid="uid://6oce1msp345h" path="res://Art/Environment/star.png" id="29_jt1pf"]
+[ext_resource type="AudioStream" uid="uid://du20s8h52w2vo" path="res://Sound/explosion(1).wav" id="30_ny6dt"]
+[ext_resource type="Script" path="res://Levels/BossArena.gd" id="31_vklx4"]
+[ext_resource type="Script" path="res://Levels/WaveyShield.gd" id="32_47i5r"]
+
+[sub_resource type="Animation" id="Animation_t00kp"]
+resource_name = "ending_song_fade"
+length = 30.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -80.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_swl36"]
+_data = {
+"ending_song_fade": SubResource("Animation_t00kp")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2jike"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_iyp8h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_jcrap")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q5mgv"]
+emission_shape = 3
+emission_box_extents = Vector3(25, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(-2, 5, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 8.84
+initial_velocity_max = 416.34
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 5.0
+color = Color(0.819608, 0.054902, 0.109804, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_niq6p"]
+emission_shape = 3
+emission_box_extents = Vector3(25, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 5, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 38.9
+initial_velocity_max = 720.52
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 5.0
+color = Color(0.819608, 0.054902, 0.109804, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ptbwd"]
+emission_shape = 3
+emission_box_extents = Vector3(25, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 38.9
+initial_velocity_max = 938.7
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 5.0
+color = Color(0.819608, 0.054902, 0.109804, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_806h5"]
+emission_shape = 3
+emission_box_extents = Vector3(25, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(1, 5, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 53.45
+initial_velocity_max = 654.26
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 5.0
+color = Color(0.819608, 0.054902, 0.109804, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_psj1j"]
+emission_shape = 3
+emission_box_extents = Vector3(25, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(2, 5, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 24.36
+initial_velocity_max = 476.88
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 5.0
+color = Color(0.819608, 0.054902, 0.109804, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gkyw3"]
+emission_shape = 3
+emission_box_extents = Vector3(600, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 5, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 24.36
+initial_velocity_max = 476.88
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 5.0
+color = Color(0.819608, 0.054902, 0.109804, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nurvh"]
+emission_shape = 3
+emission_box_extents = Vector3(600, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 5, 0)
+spread = 30.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 24.36
+initial_velocity_max = 476.88
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 5.0
+color = Color(0.576471, 0.156863, 0.235294, 1)
+
+[sub_resource type="Environment" id="Environment_u21ke"]
+background_mode = 3
+glow_enabled = true
+glow_strength = 1.17
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yq4h3"]
+size = Vector2(2600, 1700)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_koeam"]
+size = Vector2(11, 1725.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u0uyd"]
+size = Vector2(2618.5, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wypyw"]
+size = Vector2(708, 11)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3034u"]
+emission_shape = 3
+emission_box_extents = Vector3(1400, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 2000.0
+initial_velocity_max = 3000.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_max = 2.0
+color = Color(1, 1, 1, 0.588235)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0hhrh"]
+emission_shape = 3
+emission_box_extents = Vector3(1400, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 2000.0
+initial_velocity_max = 3000.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_max = 3.0
+color = Color(1, 1, 1, 0.686275)
+
+[sub_resource type="Gradient" id="Gradient_qqeag"]
+offsets = PackedFloat32Array(0, 0.1341, 0.264368, 0.40613, 0.559387, 0.681992, 0.789272, 0.89272, 1)
+colors = PackedColorArray(1, 1, 1, 0.803922, 1, 1, 1, 0.156863, 1, 1, 1, 0.745098, 1, 1, 1, 0.168627, 1, 1, 1, 0.768627, 1, 1, 1, 0.152941, 1, 1, 1, 0.678431, 1, 1, 1, 0.223529, 1, 1, 1, 0.713726)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ab3gn"]
+gradient = SubResource("Gradient_qqeag")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tusvr"]
+emission_shape = 3
+emission_box_extents = Vector3(1400, 3, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 800.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.6
+scale_max = 1.2
+color = Color(1, 1, 1, 0.870588)
+color_ramp = SubResource("GradientTexture1D_ab3gn")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2jyon"]
+
+[sub_resource type="Curve2D" id="Curve2D_1w2ha"]
+_data = {
+"points": PackedVector2Array(0.640442, 751.612, -0.640442, -751.612, -897, 855, -601.357, -0.307709, 601.357, 0.307709, 0, 193, -0.0147288, -746.788, 0.0147288, 746.788, 970, 858)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_2m7hx"]
+_data = {
+"points": PackedVector2Array(0.640442, 751.612, -0.640442, -751.612, -907, 858, -601.357, -0.307709, 601.357, 0.307709, 0, 182, -0.0147288, -746.788, 0.0147288, 746.788, 980, 855)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_kdivo"]
+bake_interval = 50.0
+_data = {
+"points": PackedVector2Array(-601.357, -0.307709, -0.640442, -751.612, -887, 855, -601.357, -0.307709, 601.357, 0.307709, 0, 203, -0.0147288, -746.788, 0.0147288, 746.788, 960, 855)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="Curve2D_s7p3i"]
+bake_interval = 50.0
+_data = {
+"points": PackedVector2Array(0.640442, 751.612, -0.640442, -751.612, -887, 855, -601.357, -0.307709, 601.357, 0.307709, 0, 203, -0.0147288, -746.788, 0.0147288, 746.788, 962, 855, 0, 0, 0, 0, 1180, 569, 0, 0, 0, 0, 744, 96, 0, 0, 0, 0, -689, 106, 0, 0, 0, 0, -1063, 568, 0, 0, 0, 0, -1018.87, 910.254, 0, 0, 0, 0, -1022, 956, 0, 0, 0, 0, -877, 954, 0, 0, 0, 0, -887, 855)
+}
+point_count = 11
+
+[node name="Level1" type="Node2D" groups=["level"]]
+process_mode = 1
+script = ExtResource("1_wv5a8")
+gun_powerup_scene = ExtResource("4_ow6qs")
+missile_powerup_scene = ExtResource("8_v7gk0")
+boost_powerup_scene = ExtResource("10_bfe65")
+theme_song_volume_db = 5.0
+theme_song_delay_to_start = 1.28
+warning_arrow = ExtResource("5_xr6ug")
+
+[node name="WaveAdvanceTimer" type="Timer" parent="."]
+wait_time = 720.063
+
+[node name="EnemiesNode2D" type="Node2D" parent="."]
+script = ExtResource("5_jkuxd")
+
+[node name="ThemeSong" type="AudioStreamPlayer" parent="."]
+process_mode = 1
+stream = ExtResource("7_sel5w")
+volume_db = 8.923
+bus = &"Music"
+
+[node name="ThemeSongTimer" type="Timer" parent="ThemeSong"]
+wait_time = 204.81
+
+[node name="BossSongIntro" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_n36bc")
+volume_db = 10.0
+bus = &"Music"
+
+[node name="BossSongLoop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_2pw3o")
+volume_db = 10.0
+bus = &"Music"
+
+[node name="BossSongTimer" type="Timer" parent="."]
+wait_time = 51.2
+
+[node name="EndingSong" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_rmq1b")
+
+[node name="CreditsEndBoostTimer" type="Timer" parent="."]
+wait_time = 23.5
+one_shot = true
+
+[node name="EndingSongFadeOut" type="AnimationPlayer" parent="."]
+root_node = NodePath("../EndingSong")
+libraries = {
+"": SubResource("AnimationLibrary_swl36")
+}
+
+[node name="IntroSongTimer" type="Timer" parent="."]
+wait_time = 12.78
+one_shot = true
+
+[node name="BossStuffHub" type="Node2D" parent="."]
+script = ExtResource("12_wbqp8")
+boss_scene = ExtResource("9_axm3j")
+
+[node name="Background" parent="." instance=ExtResource("9_5a27t")]
+process_mode = 3
+self_modulate = Color(1.5, 1.5, 1.5, 1)
+
+[node name="Border" type="Node2D" parent="."]
+script = ExtResource("16_kjtac")
+
+[node name="BaseBorder" type="AnimatedSprite2D" parent="Border"]
+position = Vector2(-20, -21)
+scale = Vector2(0.871, 1.01734)
+sprite_frames = SubResource("SpriteFrames_2jike")
+
+[node name="WallExplodeSound" type="AudioStreamPlayer" parent="Border"]
+stream = ExtResource("30_ny6dt")
+volume_db = -6.02
+bus = &"SFX"
+
+[node name="ExplosionChunk1" type="Sprite2D" parent="Border"]
+visible = false
+position = Vector2(-440, -863)
+scale = Vector2(0.871, 1.017)
+texture = ExtResource("20_dltie")
+
+[node name="ExplosionChunk1TargetLocation" type="Marker2D" parent="Border"]
+position = Vector2(-1618, 1408)
+
+[node name="ExplosionChunk2" type="Sprite2D" parent="Border"]
+visible = false
+position = Vector2(-119, -863)
+scale = Vector2(0.871, 1.017)
+texture = ExtResource("21_nl8jd")
+
+[node name="ExplosionChunk2TargetLocation" type="Marker2D" parent="Border"]
+position = Vector2(-444, 1960)
+
+[node name="ExplosionChunk3" type="Sprite2D" parent="Border"]
+visible = false
+position = Vector2(164, -863)
+scale = Vector2(0.871, 1.017)
+texture = ExtResource("22_ole43")
+
+[node name="ExplosionChunk3TargetLocation" type="Marker2D" parent="Border"]
+position = Vector2(990, 1565)
+
+[node name="ExplosionChunk4" type="Sprite2D" parent="Border"]
+visible = false
+position = Vector2(456, -863)
+scale = Vector2(0.9, 1.017)
+texture = ExtResource("23_5ywvi")
+
+[node name="ExplosionChunk4TargetLocation" type="Marker2D" parent="Border"]
+position = Vector2(1884, 1645)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Border"]
+position = Vector2(-623, -855)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_q5mgv")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="Border"]
+position = Vector2(-262, -850)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_niq6p")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="Border"]
+position = Vector2(26, -848)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_ptbwd")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+
+[node name="GPUParticles2D4" type="GPUParticles2D" parent="Border"]
+position = Vector2(306, -859)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_806h5")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="Border"]
+position = Vector2(611, -862)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_psj1j")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="Border"]
+position = Vector2(1, -851)
+emitting = false
+amount = 30
+process_material = SubResource("ParticleProcessMaterial_gkyw3")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+
+[node name="GPUParticles2D7" type="GPUParticles2D" parent="Border"]
+position = Vector2(1, -851)
+emitting = false
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_nurvh")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_u21ke")
+
+[node name="CreditsTriggerArea" type="Area2D" parent="."]
+position = Vector2(-18, -41)
+
+[node name="CreditsTriggerCollision" type="CollisionPolygon2D" parent="CreditsTriggerArea"]
+position = Vector2(-739, -1127)
+polygon = PackedVector2Array(0, 0, 1500, 0, 1500, 300, 1438, 226, 55, 225, -1, 291)
+disabled = true
+
+[node name="PlayArea" type="Area2D" parent="." groups=["PlayArea"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayArea"]
+visible = false
+position = Vector2(-20, -12)
+shape = SubResource("RectangleShape2D_yq4h3")
+
+[node name="LeftWall" type="StaticBody2D" parent="." groups=["VerticalWalls", "Walls"]]
+position = Vector2(-1300, -840)
+collision_layer = 6159
+collision_mask = 6159
+script = ExtResource("2_8qpop")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+position = Vector2(-14, 842.25)
+shape = SubResource("RectangleShape2D_koeam")
+
+[node name="RightWall" type="StaticBody2D" parent="." groups=["VerticalWalls", "Walls"]]
+position = Vector2(1300, -840)
+collision_layer = 6159
+collision_mask = 6159
+script = ExtResource("4_twvck")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+position = Vector2(-25, 843.625)
+shape = SubResource("RectangleShape2D_koeam")
+
+[node name="TopWall" type="StaticBody2D" parent="." groups=["HorizontalWalls", "Walls"]]
+position = Vector2(-1698, -855)
+collision_layer = 6159
+collision_mask = 6159
+script = ExtResource("5_uqy7i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWall"]
+position = Vector2(1693.5, -7)
+shape = SubResource("RectangleShape2D_u0uyd")
+
+[node name="TopWallLeftOutro" type="StaticBody2D" parent="." groups=["HorizontalWalls", "Walls"]]
+position = Vector2(-1698, -855)
+collision_layer = 6159
+collision_mask = 6159
+script = ExtResource("5_uqy7i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWallLeftOutro"]
+position = Vector2(720, -7)
+shape = SubResource("RectangleShape2D_wypyw")
+disabled = true
+
+[node name="TopWallRightOutro" type="StaticBody2D" parent="." groups=["HorizontalWalls", "Walls"]]
+position = Vector2(-1698, -855)
+collision_layer = 6159
+collision_mask = 6159
+script = ExtResource("5_uqy7i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopWallRightOutro"]
+position = Vector2(2650, -7)
+shape = SubResource("RectangleShape2D_wypyw")
+disabled = true
+
+[node name="BottomWall" type="StaticBody2D" parent="." groups=["HorizontalWalls", "Walls"]]
+position = Vector2(-1698, 856)
+collision_layer = 6159
+collision_mask = 6159
+script = ExtResource("5_h1hsj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomWall"]
+position = Vector2(1695.25, -12)
+shape = SubResource("RectangleShape2D_u0uyd")
+
+[node name="PlayerShip" parent="." instance=ExtResource("1_4ut23")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="PlayerShip"]
+position = Vector2(229.333, -882.667)
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_3034u")
+lifetime = 3.0
+visibility_rect = Rect2(-1000, -1000, 1000, 2000)
+local_coords = true
+trail_enabled = true
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="PlayerShip"]
+position = Vector2(229.333, -882.667)
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_0hhrh")
+lifetime = 3.0
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+local_coords = true
+trail_enabled = true
+trail_lifetime = 0.03
+trail_sections = 2
+trail_section_subdivisions = 1
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="PlayerShip"]
+position = Vector2(229.333, -882.667)
+emitting = false
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_tusvr")
+texture = ExtResource("29_jt1pf")
+lifetime = 15.0
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+local_coords = true
+trail_lifetime = 0.03
+trail_sections = 2
+trail_section_subdivisions = 1
+
+[node name="TopLeftSpawnLimitMarker2d" type="Marker2D" parent="."]
+position = Vector2(-1280, -840)
+
+[node name="TopRightSpawnLimitMarker2d" type="Marker2D" parent="."]
+position = Vector2(1280, -840)
+
+[node name="BottomLeftSpawnLimitMarker2d" type="Marker2D" parent="."]
+position = Vector2(-1280, 840)
+
+[node name="BottomRightSpawnLimitMarker2d" type="Marker2D" parent="."]
+position = Vector2(1280, 840)
+
+[node name="CornerMarker1" type="Marker2D" parent="."]
+position = Vector2(-1163, -724)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="CornerMarker1" groups=["dest"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CornerMarker1/StaticBody2D"]
+shape = SubResource("CircleShape2D_2jyon")
+disabled = true
+
+[node name="CornerMarker2" type="Marker2D" parent="."]
+position = Vector2(1163, -724)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="CornerMarker2" groups=["dest"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CornerMarker2/StaticBody2D"]
+shape = SubResource("CircleShape2D_2jyon")
+disabled = true
+
+[node name="CornerMarker3" type="Marker2D" parent="."]
+position = Vector2(1163, 724)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="CornerMarker3" groups=["dest"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CornerMarker3/StaticBody2D"]
+shape = SubResource("CircleShape2D_2jyon")
+disabled = true
+
+[node name="CornerMarker4" type="Marker2D" parent="."]
+position = Vector2(-1163, 724)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="CornerMarker4" groups=["dest"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CornerMarker4/StaticBody2D"]
+shape = SubResource("CircleShape2D_2jyon")
+disabled = true
+
+[node name="SideMarker1" type="Marker2D" parent="."]
+position = Vector2(0, -724)
+
+[node name="SideMarker2" type="Marker2D" parent="."]
+position = Vector2(1163, 0)
+
+[node name="SideMarker3" type="Marker2D" parent="."]
+position = Vector2(0, 724)
+
+[node name="SideMarker4" type="Marker2D" parent="."]
+position = Vector2(-1163, 0)
+
+[node name="CenterCornerMarker1" type="Marker2D" parent="."]
+position = Vector2(-300, -300)
+
+[node name="CenterCornerMarker2" type="Marker2D" parent="."]
+position = Vector2(300, -300)
+
+[node name="CenterCornerMarker3" type="Marker2D" parent="."]
+position = Vector2(300, 300)
+
+[node name="CenterCornerMarker4" type="Marker2D" parent="."]
+position = Vector2(-274, 300)
+
+[node name="IntermediateCornerMarker1" type="Marker2D" parent="."]
+position = Vector2(-900, -430)
+
+[node name="IntermediateCornerMarker2" type="Marker2D" parent="."]
+position = Vector2(900, -430)
+
+[node name="IntermediateCornerMarker3" type="Marker2D" parent="."]
+position = Vector2(900, 430)
+
+[node name="IntermediateCornerMarker4" type="Marker2D" parent="."]
+position = Vector2(-900, 430)
+
+[node name="IntermediateCenterMarker1" type="Marker2D" parent="."]
+position = Vector2(0, -430)
+
+[node name="IntermediateCenterMarker2" type="Marker2D" parent="."]
+position = Vector2(900, 0)
+
+[node name="IntermediateCenterMarker3" type="Marker2D" parent="."]
+position = Vector2(0, 430)
+
+[node name="IntermediateCenterMarker4" type="Marker2D" parent="."]
+position = Vector2(-900, 0)
+
+[node name="IntermediateCenterMarker5" type="Marker2D" parent="."]
+position = Vector2(-443, 0)
+
+[node name="IntermediateCenterMarker6" type="Marker2D" parent="."]
+position = Vector2(466, -4)
+
+[node name="CenterMarker" type="Marker2D" parent="."]
+
+[node name="BossAddsMarkerLeft" type="Marker2D" parent="."]
+position = Vector2(-612, 508)
+
+[node name="BossAddsMarkerRight" type="Marker2D" parent="."]
+position = Vector2(607, 502)
+
+[node name="QuadrantMarkers" type="Node2D" parent="."]
+visible = false
+
+[node name="TopLeft1" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-895, -469)
+
+[node name="TopLeft2" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-696, -374)
+
+[node name="TopLeft3" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-475, -469)
+
+[node name="TopLeft4" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-278, -365)
+
+[node name="TopLeft5" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-1057, -380)
+
+[node name="TopLeft8" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-887, -269)
+
+[node name="TopLeft6" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-685, -187)
+
+[node name="TopLeft7" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-471, -276)
+
+[node name="TopLeft9" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-691, -590)
+
+[node name="TopRight1" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(398, -449)
+
+[node name="TopRight2" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(597, -354)
+
+[node name="TopRight3" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(818, -449)
+
+[node name="TopRight4" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(1015, -345)
+
+[node name="TopRight5" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(236, -360)
+
+[node name="TopRight6" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(406, -249)
+
+[node name="TopRight7" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(608, -167)
+
+[node name="TopRight8" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(822, -256)
+
+[node name="TopRight9" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(602, -570)
+
+[node name="BottomRight1" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(404, 291)
+
+[node name="BottomRight2" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(603, 386)
+
+[node name="BottomRight3" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(824, 291)
+
+[node name="BottomRight4" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(1021, 395)
+
+[node name="BottomRight5" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(242, 380)
+
+[node name="BottomRight6" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(412, 491)
+
+[node name="BottomRight7" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(614, 573)
+
+[node name="BottomRight8" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(828, 484)
+
+[node name="BottomRight9" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(608, 170)
+
+[node name="BottomLeft1" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-887, 264)
+
+[node name="BottomLeft2" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-688, 359)
+
+[node name="BottomLeft3" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-467, 264)
+
+[node name="BottomLeft4" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-270, 368)
+
+[node name="BottomLeft5" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-1049, 353)
+
+[node name="BottomLeft6" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-879, 464)
+
+[node name="BottomLeft7" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-677, 546)
+
+[node name="BottomLeft8" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-463, 457)
+
+[node name="BottomLeft9" type="Marker2D" parent="QuadrantMarkers"]
+position = Vector2(-683, 143)
+
+[node name="Node2D" type="Node2D" parent="QuadrantMarkers"]
+position = Vector2(1292, -21)
+
+[node name="EnemyShared" parent="." instance=ExtResource("18_3snqw")]
+
+[node name="BossArena" type="StaticBody2D" parent="." groups=["BossArena"]]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(-56, 45)
+collision_layer = 65536
+collision_mask = 65536
+script = ExtResource("31_vklx4")
+
+[node name="WaveyShield" type="Path2D" parent="BossArena"]
+z_index = -2
+position = Vector2(0, 13.987)
+scale = Vector2(1, 0.926589)
+curve = SubResource("Curve2D_1w2ha")
+script = ExtResource("32_47i5r")
+wave_color = Color(0.12549, 0.839216, 0.780392, 1)
+line_width = 2.0
+pixel_line_width = false
+pixel_line_style = false
+
+[node name="WaveyShield2" type="Path2D" parent="BossArena"]
+z_index = -2
+position = Vector2(0, 13.2865)
+scale = Vector2(1, 0.926239)
+curve = SubResource("Curve2D_2m7hx")
+script = ExtResource("32_47i5r")
+wave_color = Color(0.12549, 0.839216, 0.780392, 0.501961)
+line_width = 1.0
+pixel_line_width = false
+pixel_line_style = false
+
+[node name="WaveyShield3" type="Path2D" parent="BossArena"]
+z_index = -2
+position = Vector2(1, 18.1726)
+scale = Vector2(1, 0.923775)
+curve = SubResource("Curve2D_kdivo")
+script = ExtResource("32_47i5r")
+wave_color = Color(0.12549, 0.839216, 0.780392, 0.478431)
+line_width = 1.0
+pixel_line_width = false
+pixel_line_style = false
+
+[node name="CollisionCurvePath" type="Path2D" parent="BossArena"]
+z_index = -2
+position = Vector2(-1, -2)
+curve = SubResource("Curve2D_s7p3i")
+
+[node name="ArenaCollisionPolygon2D" type="CollisionPolygon2D" parent="BossArena"]
+disabled = true
+
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
+zoom = Vector2(0.85, 0.85)
+limit_left = -1380
+limit_top = -960
+limit_right = 1380
+limit_bottom = 950
+script = ExtResource("29_33ua0")
+
+[node name="BossAimTgtLeft" type="Marker2D" parent="."]
+position = Vector2(-610, 730)
+
+[node name="BossAimTgtRight" type="Marker2D" parent="."]
+position = Vector2(610, 730)
+
+[node name="BossAimTgtCenter" type="Marker2D" parent="."]
+position = Vector2(0, 591)
+
+[node name="CreditsBlastoffTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -454.0
+offset_top = -171.0
+offset_right = -266.0
+offset_bottom = -145.0
+theme_override_font_sizes/font_size = 30
+
+[node name="WaveObjNode" type="Node" parent="."]
+
+[connection signal="timeout" from="WaveAdvanceTimer" to="." method="_on_wave_advance_timer_timeout"]
+[connection signal="timeout" from="ThemeSong/ThemeSongTimer" to="." method="_on_theme_song_timer_timeout"]
+[connection signal="finished" from="BossSongIntro" to="." method="_on_boss_song_intro_finished"]
+[connection signal="timeout" from="BossSongTimer" to="." method="_on_boss_song_timer_timeout"]
+[connection signal="timeout" from="CreditsEndBoostTimer" to="." method="_on_credits_end_boost_timer_timeout"]
+[connection signal="timeout" from="IntroSongTimer" to="." method="_on_intro_song_timer_timeout"]
+[connection signal="body_entered" from="CreditsTriggerArea" to="." method="_on_credits_trigger_area_body_entered"]
+[connection signal="timeout" from="CreditsBlastoffTimer" to="." method="_on_credits_blastoff_timer_timeout"]

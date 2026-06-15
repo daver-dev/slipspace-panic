@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://4mb11cjnxajt"]
+
+[sub_resource type="Gradient" id="Gradient_46cq0"]
+offsets = PackedFloat32Array(0.164596, 0.307453)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wbpk2"]
+gradient = SubResource("Gradient_46cq0")
+
+[sub_resource type="Curve" id="Curve_sw13c"]
+min_value = -1.0
+_data = [Vector2(0, -1), 0.0, 0.0, 0, 0, Vector2(1, 0.242105), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jboxe"]
+curve = SubResource("Curve_sw13c")
+
+[sub_resource type="Curve" id="Curve_5qrpj"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 2.10526), 0.0, 0.0, 0, 0, Vector2(1, 200), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_dg0iu"]
+curve = SubResource("Curve_5qrpj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ngdwq"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+linear_accel_min = 36.17
+linear_accel_max = 100.0
+linear_accel_curve = SubResource("CurveTexture_dg0iu")
+radial_accel_max = 164.65
+scale_min = 3.0
+scale_max = 3.0
+color = Color(1, 1, 1, 0.129412)
+color_ramp = SubResource("GradientTexture1D_wbpk2")
+hue_variation_min = -0.01
+hue_variation_max = 0.01
+hue_variation_curve = SubResource("CurveTexture_jboxe")
+
+[node name="SmallStars" type="Node2D"]
+
+[node name="StarParticles" type="GPUParticles2D" parent="."]
+amount = 2000
+process_material = SubResource("ParticleProcessMaterial_ngdwq")
+lifetime = 3.0
+preprocess = 3.0
+trail_enabled = true
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 3

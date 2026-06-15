@@ -1,0 +1,174 @@
+[gd_scene load_steps=18 format=3 uid="uid://c5tdvm877edrn"]
+
+[ext_resource type="Script" path="res://homing_missile.gd" id="1_2j1ts"]
+[ext_resource type="PackedScene" uid="uid://ib3krf0pkm88" path="res://explosion.tscn" id="2_5htc8"]
+[ext_resource type="Texture2D" uid="uid://b4hu7vlh2hjdg" path="res://Art/Player/missile_flame.png" id="4_3v50d"]
+[ext_resource type="Texture2D" uid="uid://ddebbblhd2ink" path="res://Art/Player/new_missile_spritesheet.png" id="4_oak0a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3nclt"]
+size = Vector2(24.1667, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5qrx"]
+atlas = ExtResource("4_oak0a")
+region = Rect2(0, 0, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsbt1"]
+atlas = ExtResource("4_oak0a")
+region = Rect2(22, 0, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uayuv"]
+atlas = ExtResource("4_oak0a")
+region = Rect2(44, 0, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6n46"]
+atlas = ExtResource("4_oak0a")
+region = Rect2(0, 17, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ly0l"]
+atlas = ExtResource("4_oak0a")
+region = Rect2(22, 17, 22, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6d1wr"]
+atlas = ExtResource("4_oak0a")
+region = Rect2(44, 17, 22, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cjw41"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b5qrx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsbt1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uayuv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6n46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ly0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6d1wr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_r4oen"]
+offsets = PackedFloat32Array(0, 0.102389, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.282353, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5n2kl"]
+gradient = SubResource("Gradient_r4oen")
+
+[sub_resource type="Curve" id="Curve_8k7rr"]
+max_value = 2.0
+_data = [Vector2(0, 0.48421), 0.0, 0.0, 0, 0, Vector2(0.157407, 2), 0.0, 0.0, 0, 0, Vector2(1, 0.189474), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_8q18m"]
+curve = SubResource("Curve_8k7rr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kaahr"]
+emission_shape = 2
+emission_sphere_radius = 8.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 4.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+linear_accel_min = -100.0
+linear_accel_max = -48.27
+radial_accel_min = -18.39
+radial_accel_max = -4.61
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_8q18m")
+color = Color(1, 1, 1, 0.690196)
+color_ramp = SubResource("GradientTexture1D_5n2kl")
+
+[node name="HomingMissile" type="Area2D" groups=["missile", "pausehide"]]
+rotation = -1.5708
+scale = Vector2(1.8, 1.8)
+collision_layer = 2049
+collision_mask = 65535
+script = ExtResource("1_2j1ts")
+explosion_scene = ExtResource("2_5htc8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.416668, -1.26192e-11)
+shape = SubResource("RectangleShape2D_3nclt")
+
+[node name="FlameSprite" type="Sprite2D" parent="."]
+position = Vector2(-2.5, -9.05991e-06)
+texture = ExtResource("4_3v50d")
+
+[node name="MissileSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cjw41")
+
+[node name="HeatSeekingArea2D" type="Area2D" parent="."]
+collision_mask = 65534
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="HeatSeekingArea2D"]
+polygon = PackedVector2Array(35.5557, -26.6665, 35.5555, 24.4446, 257.221, 369.445, 355.554, 417.779, 449.443, 384.446, 494.999, 296.113, 494.446, -292.776, 443.335, -386.665, 345.002, -415.554, 247.224, -357.221)
+
+[node name="SmokeCloudParticles" type="GPUParticles2D" parent="."]
+position = Vector2(-18.3333, -6.67572e-05)
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_kaahr")
+explosiveness = 0.12
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+
+[node name="SmokeCloudParticles2" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(-18.3333, -6.67572e-05)
+emitting = false
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_kaahr")
+explosiveness = 1.0
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+
+[node name="SmokeCloudParticles3" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(-28, -9.91821e-05)
+emitting = false
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_kaahr")
+explosiveness = 1.0
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+
+[node name="SmokeCloudParticles4" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(-28, -9.91821e-05)
+emitting = false
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_kaahr")
+explosiveness = 1.0
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+
+[node name="SmokeCloudParticles5" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(-28, -9.91821e-05)
+emitting = false
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_kaahr")
+explosiveness = 1.0
+visibility_rect = Rect2(-1000, -1000, 2000, 2000)
+
+[node name="SmokeTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="QueueFreeTimer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="HeatSeekingArea2D" to="." method="_on_heat_seeking_area_2d_area_entered"]
+[connection signal="body_entered" from="HeatSeekingArea2D" to="." method="_on_heat_seeking_area_2d_body_entered"]
+[connection signal="timeout" from="SmokeTimer" to="." method="_on_smoke_timer_timeout"]
+[connection signal="timeout" from="QueueFreeTimer" to="." method="_on_queue_free_timer_timeout"]

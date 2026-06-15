@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://ex5qlryoeuwl"]
+
+[ext_resource type="Script" path="res://crescent_bullet.gd" id="1_vbx6u"]
+[ext_resource type="Texture2D" uid="uid://f7l5x736nhuf" path="res://Art/Player/crescent.png" id="2_bhoju"]
+
+[node name="CresentBullet" type="Node2D" groups=["bullet", "pausehide"]]
+script = ExtResource("1_vbx6u")
+
+[node name="Area2D" type="Area2D" parent="." groups=["bullet", "crescent", "pausehide"]]
+scale = Vector2(1.2, 1.2)
+collision_layer = 2049
+collision_mask = 65471
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+z_index = -1
+position = Vector2(-0.699997, -14)
+scale = Vector2(2, 2)
+texture = ExtResource("2_bhoju")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(-0.699997, -39)
+polygon = PackedVector2Array(-22.3, 23, -14.3, 12, 0.699997, 6, 14.7, 11, 21.7, 23, 26.7, 41, 9.7, 35, -9.3, 35, -26.3, 41)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

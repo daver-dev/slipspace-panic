@@ -1,0 +1,135 @@
+[gd_scene load_steps=16 format=3 uid="uid://b3nfugdvaa7qt"]
+
+[ext_resource type="Script" path="res://Menu/settings_menu.gd" id="1_3q5ib"]
+[ext_resource type="Texture2D" uid="uid://r0jh2ce5iaml" path="res://Art/pause_menu/base_small.png" id="2_3cx28"]
+[ext_resource type="Texture2D" uid="uid://jlpxbmm8vb64" path="res://Art/settings_menu/slider.png" id="3_c5nfm"]
+[ext_resource type="Texture2D" uid="uid://c0nvdsufcqd0d" path="res://Art/settings_menu/slider_highlight.png" id="4_nykdv"]
+[ext_resource type="Texture2D" uid="uid://brydwe55x42y6" path="res://Art/settings_menu/done_button.png" id="5_yuxjd"]
+[ext_resource type="Texture2D" uid="uid://bretj8xh3wlis" path="res://Art/settings_menu/done_button_highlight.png" id="6_qwyih"]
+[ext_resource type="Texture2D" uid="uid://cebwt2a8ykg74" path="res://Art/settings_menu/done_button_pressed.png" id="7_bvt0k"]
+[ext_resource type="FontFile" uid="uid://b7ogiqbobpphc" path="res://HUD/pix-pixelfjverdana12pt.regular.ttf" id="8_ngonj"]
+[ext_resource type="Texture2D" uid="uid://d2cta4cn3vl8v" path="res://Art/settings_menu/knob.png" id="9_prp8u"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_snq4f"]
+font = ExtResource("8_ngonj")
+font_color = Color(0.819608, 0.054902, 0.109804, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3b763"]
+font = ExtResource("8_ngonj")
+
+[sub_resource type="LabelSettings" id="LabelSettings_o4tqa"]
+font = ExtResource("8_ngonj")
+font_color = Color(0.819608, 0.054902, 0.109804, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qucxv"]
+font = ExtResource("8_ngonj")
+
+[sub_resource type="Curve2D" id="Curve2D_kdyix"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 836, 475, 0, 0, 0, 0, 1086, 475)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_6i8rn"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 836, 475, 0, 0, 0, 0, 1086, 475)
+}
+point_count = 2
+
+[node name="SettingsMenu" type="CanvasLayer"]
+script = ExtResource("1_3q5ib")
+
+[node name="RootNode2D" type="Node2D" parent="."]
+
+[node name="Base" type="Sprite2D" parent="RootNode2D"]
+position = Vector2(960, 547)
+scale = Vector2(2, 2)
+texture = ExtResource("2_3cx28")
+
+[node name="MusicSlider" type="Sprite2D" parent="RootNode2D"]
+position = Vector2(961, 560)
+scale = Vector2(2, 2)
+texture = ExtResource("3_c5nfm")
+
+[node name="MusicSliderHighlight" type="Sprite2D" parent="RootNode2D"]
+position = Vector2(962, 560)
+scale = Vector2(2, 2)
+texture = ExtResource("4_nykdv")
+
+[node name="FxSlider" type="Sprite2D" parent="RootNode2D"]
+position = Vector2(962, 481)
+scale = Vector2(2, 2)
+texture = ExtResource("3_c5nfm")
+
+[node name="FxSliderHighlight" type="Sprite2D" parent="RootNode2D"]
+visible = false
+position = Vector2(962, 481)
+scale = Vector2(2, 2)
+texture = ExtResource("4_nykdv")
+
+[node name="DoneButton" type="Sprite2D" parent="RootNode2D"]
+position = Vector2(960, 624)
+scale = Vector2(2, 2)
+texture = ExtResource("5_yuxjd")
+
+[node name="DoneButtonHighlight" type="Sprite2D" parent="RootNode2D"]
+visible = false
+position = Vector2(960, 624)
+scale = Vector2(2, 2)
+texture = ExtResource("6_qwyih")
+
+[node name="DoneButtonPress" type="Sprite2D" parent="RootNode2D"]
+visible = false
+position = Vector2(960, 624)
+scale = Vector2(2, 2)
+texture = ExtResource("7_bvt0k")
+
+[node name="FxLabel" type="Label" parent="RootNode2D"]
+offset_left = 844.0
+offset_top = 440.0
+offset_right = 1228.0
+offset_bottom = 479.0
+scale = Vector2(0.6, 0.6)
+text = "SOUND EFFECTS VOLUME"
+label_settings = SubResource("LabelSettings_snq4f")
+
+[node name="FxAmount" type="Label" parent="RootNode2D"]
+offset_right = 40.0
+offset_bottom = 36.0
+label_settings = SubResource("LabelSettings_3b763")
+
+[node name="MusicLabel" type="Label" parent="RootNode2D"]
+offset_left = 888.0
+offset_top = 521.0
+offset_right = 1212.0
+offset_bottom = 560.0
+scale = Vector2(0.6, 0.6)
+text = "MUSIC VOLUME"
+label_settings = SubResource("LabelSettings_o4tqa")
+
+[node name="MusicAmount" type="Label" parent="RootNode2D"]
+offset_right = 40.0
+offset_bottom = 36.0
+label_settings = SubResource("LabelSettings_qucxv")
+
+[node name="FxPath" type="Path2D" parent="RootNode2D"]
+position = Vector2(1, 6)
+curve = SubResource("Curve2D_kdyix")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="RootNode2D/FxPath"]
+position = Vector2(836, 475)
+
+[node name="FxKnob" type="Sprite2D" parent="RootNode2D/FxPath/PathFollow2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("9_prp8u")
+
+[node name="MusicPath" type="Path2D" parent="RootNode2D"]
+position = Vector2(0, 85)
+curve = SubResource("Curve2D_6i8rn")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="RootNode2D/MusicPath"]
+position = Vector2(836, 475)
+
+[node name="MusicKnob" type="Sprite2D" parent="RootNode2D/MusicPath/PathFollow2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("9_prp8u")

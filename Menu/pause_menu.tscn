@@ -1,0 +1,254 @@
+[gd_scene load_steps=30 format=3 uid="uid://ct7ehwkus4odn"]
+
+[ext_resource type="Script" path="res://Menu/pause_menu.gd" id="1_csmik"]
+[ext_resource type="Texture2D" uid="uid://bdt5sh45vbuol" path="res://Art/pause_menu/base.png" id="2_gl3d3"]
+[ext_resource type="Texture2D" uid="uid://m5exnjs3ui62" path="res://Art/pause_menu/menu_button.png" id="3_bpqde"]
+[ext_resource type="Texture2D" uid="uid://doh8d75tslrs5" path="res://Art/pause_menu/resume_button.png" id="3_sl4a8"]
+[ext_resource type="Texture2D" uid="uid://bjbalwal2sqjm" path="res://Art/pause_menu/resume_button_highlight.png" id="4_j4xa2"]
+[ext_resource type="Texture2D" uid="uid://duah7eweumvvy" path="res://Art/pause_menu/resume_button_press.png" id="5_36vfw"]
+[ext_resource type="Texture2D" uid="uid://cegc2cpljfuj4" path="res://Art/pause_menu/menu_button_highlight.png" id="7_mtovh"]
+[ext_resource type="Texture2D" uid="uid://cokqm4nrg4rxk" path="res://Art/pause_menu/menu_button_press.png" id="8_dfkag"]
+[ext_resource type="Texture2D" uid="uid://bgdgs3e1e5qq0" path="res://Art/pause_menu/quit_button.png" id="9_lsvgs"]
+[ext_resource type="Texture2D" uid="uid://cf3nsy81resoe" path="res://Art/pause_menu/quit_button_highlight.png" id="10_d060q"]
+[ext_resource type="Texture2D" uid="uid://djxa5vlqwfj1r" path="res://Art/pause_menu/quit_button_press.png" id="11_2bfk7"]
+[ext_resource type="AudioStream" uid="uid://8ak0ru452krk" path="res://Sound/button_click.wav" id="12_ex87u"]
+[ext_resource type="AudioStream" uid="uid://b3j8ko0b5pght" path="res://Sound/main_menu/menu_selection_change.wav" id="13_qn5if"]
+[ext_resource type="PackedScene" uid="uid://b3nfugdvaa7qt" path="res://Menu/settings_menu.tscn" id="14_45fgf"]
+[ext_resource type="FontFile" uid="uid://b7ogiqbobpphc" path="res://HUD/pix-pixelfjverdana12pt.regular.ttf" id="15_5mwct"]
+[ext_resource type="Texture2D" uid="uid://cgir4ogl3oi4d" path="res://Art/pause_menu/left_stick.png" id="16_d8i7q"]
+[ext_resource type="Texture2D" uid="uid://d32igjfw552sf" path="res://Art/pause_menu/right_stick.png" id="17_o38dl"]
+[ext_resource type="Texture2D" uid="uid://dcej5r70o11g2" path="res://Art/pause_menu/left_trigger.png" id="18_uhq8n"]
+[ext_resource type="Texture2D" uid="uid://p87lkv38dg7j" path="res://Art/pause_menu/right_trigger.png" id="19_c2cp7"]
+[ext_resource type="Texture2D" uid="uid://cnxb2l3xx3dwi" path="res://Art/pause_menu/left_mouse.png" id="20_7gup3"]
+[ext_resource type="Texture2D" uid="uid://br7wn2gogcfbj" path="res://Art/Player/static_shield_gem.png" id="20_qixof"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_f3s70"]
+load_path = "res://.godot/imported/settings_button.png-576719b7336a23b51398e9383982e791.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dilds"]
+load_path = "res://.godot/imported/settings_button_highlight.png-7a42049103bfda2109bd479b9a0c832a.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w7f5a"]
+load_path = "res://.godot/imported/settings_button_pressed.png-49a8ff275a5b37e4e667a3c8505d7e32.ctex"
+
+[sub_resource type="Animation" id="Animation_faia8"]
+resource_name = "fade_in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_g8ss0"]
+resource_name = "fade_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2, 0.3),
+"transitions": PackedFloat32Array(1, 0.217638),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c2w1v"]
+_data = {
+"fade_in": SubResource("Animation_faia8"),
+"fade_out": SubResource("Animation_g8ss0")
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_f74mr"]
+streams_count = 1
+playback_mode = 2
+random_pitch = 1.05
+random_volume_offset_db = 0.0
+stream_0/stream = ExtResource("12_ex87u")
+stream_0/weight = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_8r2vt"]
+font = ExtResource("15_5mwct")
+font_color = Color(0.819608, 0.054902, 0.109804, 1)
+shadow_color = Color(0.231373, 0.0901961, 0.145098, 1)
+
+[node name="PauseMenu" type="CanvasLayer" groups=["pausemenu"]]
+layer = 2
+script = ExtResource("1_csmik")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UseToDarkenStarsIfNeeded" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="OuterMargin" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 570
+theme_override_constants/margin_top = 260
+theme_override_constants/margin_right = 570
+theme_override_constants/margin_bottom = 247
+
+[node name="PauseButtonsTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="PauseMenuBase" type="Sprite2D" parent="."]
+position = Vector2(960, 545)
+scale = Vector2(2, 2)
+texture = ExtResource("2_gl3d3")
+
+[node name="ResumeButton" type="Sprite2D" parent="."]
+position = Vector2(960, 508)
+scale = Vector2(2, 2)
+texture = ExtResource("3_sl4a8")
+
+[node name="ResumeHighlight" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 510)
+scale = Vector2(2, 2)
+texture = ExtResource("4_j4xa2")
+
+[node name="ResumePress" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 510)
+scale = Vector2(2, 2)
+texture = ExtResource("5_36vfw")
+
+[node name="SettingsButton" type="Sprite2D" parent="."]
+position = Vector2(960, 587)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_f3s70")
+
+[node name="SettingsHighlight" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 587)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_dilds")
+
+[node name="SettingsPress" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 588)
+scale = Vector2(2, 2)
+texture = SubResource("CompressedTexture2D_w7f5a")
+
+[node name="MenuButton" type="Sprite2D" parent="."]
+position = Vector2(960, 585)
+scale = Vector2(2, 2)
+texture = ExtResource("3_bpqde")
+
+[node name="MenuHighlight" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 585)
+scale = Vector2(2, 2)
+texture = ExtResource("7_mtovh")
+
+[node name="MenuPress" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 585)
+scale = Vector2(2, 2)
+texture = ExtResource("8_dfkag")
+
+[node name="QuitButton" type="Sprite2D" parent="."]
+position = Vector2(961, 581)
+scale = Vector2(2, 2)
+texture = ExtResource("9_lsvgs")
+
+[node name="QuitHighlight" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 580)
+scale = Vector2(2, 2)
+texture = ExtResource("10_d060q")
+
+[node name="QuitPress" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(960, 580)
+scale = Vector2(2, 2)
+texture = ExtResource("11_2bfk7")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="PauseFader" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_c2w1v")
+}
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_f74mr")
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="SelectionChange" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_qn5if")
+bus = &"SFX"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("14_45fgf")]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 379.0
+offset_top = 943.0
+offset_right = 1559.0
+offset_bottom = 1060.0
+text = "CONTROLS
+
+Move:      or WASD     Shoot:      or           Boost:      /      or SHIFT (Requires     )"
+label_settings = SubResource("LabelSettings_8r2vt")
+horizontal_alignment = 1
+
+[node name="LeftStick" type="Sprite2D" parent="Label"]
+position = Vector2(153, 92.0001)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("16_d8i7q")
+
+[node name="RightStick" type="Sprite2D" parent="Label"]
+position = Vector2(461, 92.0001)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("17_o38dl")
+
+[node name="LeftTrigger" type="Sprite2D" parent="Label"]
+position = Vector2(718.2, 92.2)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("18_uhq8n")
+
+[node name="RightTrigger" type="Sprite2D" parent="Label"]
+position = Vector2(774.2, 91.2)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("19_c2cp7")
+
+[node name="LMB" type="Sprite2D" parent="Label"]
+position = Vector2(539, 93.0001)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("20_7gup3")
+
+[node name="Gem" type="Sprite2D" parent="Label"]
+position = Vector2(1102, 97.0001)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("20_qixof")
+
+[connection signal="timeout" from="PauseButtonsTimer" to="." method="_on_timer_timeout"]
