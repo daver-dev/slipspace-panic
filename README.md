@@ -1,2 +1,1 @@
-Code Base for the first Sudden Journey Games project.
-Uses Godot 4.1.3 stable.
+Source code for the game Slipspace Panic (Copied from the original private repo with permission). Available at https://store.steampowered.com/app/4725830/Slipspace_Panic/
